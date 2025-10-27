@@ -223,7 +223,7 @@ class EssayPracticeWidget(QWidget):
         for idx, char in enumerate(target_line):
             if idx < typed_length:
                 if typed_text[idx] == char:
-                    color = "#2563eb"
+                    color = "#16a34a"
                 else:
                     color = "#dc2626"
             else:
