@@ -22,6 +22,7 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
+from app.core.network_utils import get_local_ip
 from app.core.stats import EssayStats
 from app.network.pk_client import PkClient
 from app.network.pk_server import PK_PORT, PkServer
@@ -35,7 +36,8 @@ class PkModeWidget(QWidget):
         self.server: Optional[PkServer] = None
         self.client: Optional[PkClient] = None
         self.message_queue: "queue.Queue[dict]" = queue.Queue()
-        self.users: Dict[str, str] = {}
+        self.users: Dict[str, dict] = {}
+        self.local_ip = get_local_ip()
         self.current_challenge_id: Optional[str] = None
         self.challenge_dialog: Optional[ChallengeDialog] = None
 
@@ -47,6 +49,7 @@ class PkModeWidget(QWidget):
         self.user_list: Optional[QListWidget] = None
 
         self._build_ui()
+        self._set_status("未连接")
         self._ensure_server()
 
         self._message_timer = QTimer(self)
@@ -110,7 +113,7 @@ class PkModeWidget(QWidget):
         form_grid.addWidget(disconnect_btn, 0, 5)
         self.disconnect_button = disconnect_btn
 
-        status = QLabel("未连接")
+        status = QLabel("")
         status.setObjectName("StatusLabel")
         card_layout.addWidget(status)
         self.status_label = status
@@ -144,8 +147,11 @@ class PkModeWidget(QWidget):
             self._set_status(f"检测到已有服务器，准备连接 (端口 {PK_PORT})")
 
     def _set_status(self, text: str) -> None:
-        if self.status_label is not None:
-            self.status_label.setText(text)
+        if self.status_label is None:
+            return
+        prefix = f"本机 IP：{self.local_ip}"
+        message = f"{prefix} | {text}" if text else prefix
+        self.status_label.setText(message)
 
     def _on_connect(self) -> None:
         if self.student_id_input is None or self.name_input is None:
@@ -210,11 +216,15 @@ class PkModeWidget(QWidget):
     def _handle_user_list(self, message: dict) -> None:
         users = message.get("users", [])
         my_id = self.client.student_id if self.client else None
-        self.users = {
-            user["student_id"]: user["name"]
-            for user in users
-            if user["student_id"] != my_id
-        }
+        self.users = {}
+        for user in users:
+            student_id = user.get("student_id")
+            if not student_id or student_id == my_id:
+                continue
+            self.users[student_id] = {
+                "name": user.get("name", "未知"),
+                "ip": user.get("ip", "未知"),
+            }
         self._refresh_user_list()
         self._set_status(f"当前在线 {len(users)} 人")
 
@@ -222,56 +232,72 @@ class PkModeWidget(QWidget):
         if self.user_list is None:
             return
         self.user_list.clear()
-        for student_id, name in self.users.items():
-            item = QListWidgetItem(f"{name} ({student_id})")
+        for student_id, info in self.users.items():
+            name = info.get("name", "未知")
+            ip = info.get("ip", "未知")
+            item = QListWidgetItem(f"{name} ({student_id}) - {ip}")
+            item.setData(Qt.UserRole, student_id)
             self.user_list.addItem(item)
 
     def _on_user_double_click(self, item: QListWidgetItem) -> None:
         if self.client is None or item is None:
             return
-        index = self.user_list.row(item) if self.user_list else -1
-        if index < 0:
+        student_id = item.data(Qt.UserRole)
+        if not student_id:
             return
-        student_id = list(self.users.keys())[index]
         self.client.request_challenge(student_id)
-        self._set_status(f"已向 {self.users[student_id]} 发起挑战，等待回应...")
+        info = self.users.get(student_id, {})
+        name = info.get("name", "对方")
+        ip = info.get("ip", "未知")
+        self._set_status(f"已向 {name} ({ip}) 发起挑战，等待回应...")
 
     def _handle_challenge_request(self, message: dict) -> None:
         challenger = message.get("from", {})
         challenger_name = challenger.get("name", "未知")
         challenger_id = challenger.get("student_id", "")
+        challenger_ip = challenger.get("ip", "未知")
         if not challenger_id or self.client is None:
             return
         reply = QMessageBox.question(
             self,
             "收到挑战",
-            f"{challenger_name} 向您发起挑战，是否接受？",
+            f"{challenger_name}（IP: {challenger_ip}）向您发起挑战，是否接受？",
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.Yes,
         )
         accept = reply == QMessageBox.Yes
         self.client.respond_challenge(challenger_id, accept)
         if accept:
-            self._set_status(f"已接受 {challenger_name} 的挑战，准备开始...")
+            self._set_status(f"已接受 {challenger_name} ({challenger_ip}) 的挑战，准备开始...")
         else:
             QMessageBox.information(self, "提示", "您已拒绝对方的挑战")
-            self._set_status(f"已拒绝 {challenger_name} 的挑战")
+            self._set_status(f"已拒绝 {challenger_name} ({challenger_ip}) 的挑战")
 
     def _handle_challenge_response(self, message: dict) -> None:
         accepted = message.get("accepted", False)
         responder = message.get("from", {})
         responder_name = responder.get("name", "对方")
+        responder_ip = responder.get("ip", "未知")
         if accepted:
-            self._set_status(f"{responder_name} 接受了您的挑战，准备中...")
+            self._set_status(f"{responder_name} ({responder_ip}) 接受了您的挑战，准备中...")
         else:
             QMessageBox.information(self, "提示", "对方不接受您的挑战")
-            self._set_status(f"{responder_name} 拒绝了挑战")
+            self._set_status(f"{responder_name} ({responder_ip}) 拒绝了挑战")
 
     def _handle_start_challenge(self, message: dict) -> None:
         if self.client is None:
             return
         challenge_id = message.get("challenge_id")
         essay = message.get("essay", {})
+        participants = message.get("participants", [])
+        my_id = self.client.student_id or ""
+        opponent_name = "对手"
+        opponent_ip = "未知"
+        for participant in participants:
+            if participant.get("student_id") != my_id:
+                opponent_name = participant.get("name", opponent_name)
+                opponent_ip = participant.get("ip", opponent_ip)
+                break
         self.current_challenge_id = challenge_id
 
         if self.challenge_dialog is not None:
@@ -282,11 +308,13 @@ class PkModeWidget(QWidget):
             challenge_id=challenge_id,
             essay_title=essay.get("title", "PK 练习"),
             essay_content=essay.get("content", ""),
+            opponent_name=opponent_name,
+            opponent_ip=opponent_ip,
             parent=self,
         )
         self.challenge_dialog.destroyed.connect(self._on_challenge_dialog_closed)
         self.challenge_dialog.show()
-        self._set_status("挑战开始，祝您好运！")
+        self._set_status(f"挑战开始，对手 {opponent_name} ({opponent_ip})，祝您好运！")
 
     def _on_challenge_dialog_closed(self, _obj=None) -> None:
         self.challenge_dialog = None
@@ -337,6 +365,8 @@ class ChallengeDialog(QDialog):
         challenge_id: str,
         essay_title: str,
         essay_content: str,
+        opponent_name: str,
+        opponent_ip: str,
         parent: Optional[QWidget] = None,
     ) -> None:
         super().__init__(parent)
@@ -345,6 +375,8 @@ class ChallengeDialog(QDialog):
         self.challenge_id = challenge_id
         self.essay_title = essay_title
         self.essay_content = essay_content.strip()
+        self.opponent_name = opponent_name
+        self.opponent_ip = opponent_ip
         self.stats = EssayStats()
         self.submitted = False
         self.countdown_value = 5
@@ -354,6 +386,7 @@ class ChallengeDialog(QDialog):
 
         self.title_label: Optional[QLabel] = None
         self.countdown_label: Optional[QLabel] = None
+        self.opponent_label: Optional[QLabel] = None
         self.reference_text: Optional[QTextEdit] = None
         self.user_text: Optional[QTextEdit] = None
         self.status_label: Optional[QLabel] = None
@@ -379,6 +412,12 @@ class ChallengeDialog(QDialog):
         countdown_label.setStyleSheet("color: #1a73e8; font-size: 16px; font-weight: 600;")
         layout.addWidget(countdown_label)
         self.countdown_label = countdown_label
+
+        opponent_label = QLabel(f"对手：{self.opponent_name} | IP：{self.opponent_ip}")
+        opponent_label.setAlignment(Qt.AlignCenter)
+        opponent_label.setStyleSheet("color: #475569; font-size: 15px; font-weight: 600;")
+        layout.addWidget(opponent_label)
+        self.opponent_label = opponent_label
 
         panel = QFrame()
         panel.setObjectName("CardFrame")
