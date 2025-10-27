@@ -28,7 +28,7 @@
 ## 环境依赖
 
 - Python 3.10+
-- 依赖包见 `requirements.txt`（当前仅需 `pyttsx3`）。
+- 依赖包见 `requirements.txt`（当前需 `pyttsx3` 与 `PyQt5`）。
 
 安装依赖示例：
 
