@@ -93,7 +93,7 @@ class WordPracticeFrame(ttk.Frame):
     def _speak_current_word(self) -> None:
         if self.current_word is None:
             return
-        utterance = f"{self.current_word.word}. {self.current_word.example}"
+        utterance = f"{self.current_word.word}. {self.current_word.meaning}"
         self.tts.speak(utterance)
 
     def _next_word(self) -> None:
@@ -152,7 +152,7 @@ class WordPracticeFrame(ttk.Frame):
                     self.entry_var.set("")
                     for reset_label in self.letter_labels:
                         reset_label.config(fg="#b22222")
-                    self.tts.speak(target)
+                    self._speak_current_word()
                     self.after(800, self._render_current_word)
                     self._update_status()
                     return

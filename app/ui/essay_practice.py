@@ -94,7 +94,7 @@ class EssayPracticeFrame(ttk.Frame):
             line_frame = ttk.Frame(self.lines_container, padding=(0, 8))
             line_frame.pack(fill=tk.X, expand=True)
 
-            label_text = f"{idx + 1:02d}. {line}"
+            label_text = line
             label = ttk.Label(
                 line_frame,
                 text=label_text,
