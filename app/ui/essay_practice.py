@@ -5,12 +5,12 @@ from dataclasses import dataclass
 from html import escape
 from typing import List, Optional
 
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt, QTimer, pyqtSignal
+from PyQt5.QtGui import QColor, QFontMetrics, QTextCharFormat, QTextCursor, QTextOption
 from PyQt5.QtWidgets import (
     QFrame,
     QHBoxLayout,
     QLabel,
-    QLineEdit,
     QPushButton,
     QScrollArea,
     QSizePolicy,
@@ -18,16 +18,109 @@ from PyQt5.QtWidgets import (
     QSpacerItem,
     QVBoxLayout,
     QWidget,
+    QTextEdit,
 )
 
 from app.core.data_loader import Essay, load_essays
 from app.core.stats import EssayStats
 
 
+class EssayInputField(QTextEdit):
+    textEdited = pyqtSignal(str)
+    returnPressed = pyqtSignal()
+
+    def __init__(self, target_text: str, parent: Optional[QWidget] = None) -> None:
+        super().__init__(parent)
+        self.target_text = target_text
+        self._raw_text = ""
+        self._updating = False
+
+        self.setAcceptRichText(False)
+        self.setLineWrapMode(QTextEdit.NoWrap)
+        self.setWordWrapMode(QTextOption.NoWrap)
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.setTabChangesFocus(True)
+
+        self.textChanged.connect(self._handle_text_changed)
+        self._apply_coloring("")
+        self.adjust_height()
+
+    def text(self) -> str:
+        return self._raw_text
+
+    def refresh_display(self) -> None:
+        self._apply_coloring(self._raw_text)
+
+    def adjust_height(self) -> None:
+        metrics = QFontMetrics(self.font())
+        padding = 18
+        self.setFixedHeight(metrics.lineSpacing() + padding)
+
+    def setFont(self, font) -> None:  # type: ignore[override]
+        super().setFont(font)
+        self.document().setDefaultFont(font)
+        self.adjust_height()
+        self.refresh_display()
+
+    def keyPressEvent(self, event) -> None:  # type: ignore[override]
+        if event.key() in (Qt.Key_Return, Qt.Key_Enter):
+            self.returnPressed.emit()
+            event.accept()
+            return
+        super().keyPressEvent(event)
+
+    def _handle_text_changed(self) -> None:
+        if self._updating:
+            return
+        plain = self.toPlainText()
+        if "\n" in plain:
+            plain = plain.replace("\n", "")
+        self._apply_coloring(plain)
+        self.textEdited.emit(self._raw_text)
+
+    def _apply_coloring(self, content: str) -> None:
+        sanitized = content.replace("\n", "")
+        self._updating = True
+
+        doc = self.document()
+        prev_cursor = self.textCursor()
+        position = min(prev_cursor.position(), len(sanitized))
+        anchor = min(prev_cursor.anchor(), len(sanitized))
+
+        doc.setPlainText(sanitized)
+
+        fmt_cursor = QTextCursor(doc)
+        for idx, char in enumerate(sanitized):
+            fmt_cursor.setPosition(idx)
+            fmt_cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
+            fmt = QTextCharFormat()
+            if idx < len(self.target_text) and char == self.target_text[idx]:
+                fmt.setForeground(QColor("#16a34a"))
+            else:
+                fmt.setForeground(QColor("#dc2626"))
+            fmt_cursor.setCharFormat(fmt)
+
+        new_cursor = QTextCursor(doc)
+        if anchor != position:
+            start = min(anchor, position)
+            end = max(anchor, position)
+            new_cursor.setPosition(start)
+            new_cursor.setPosition(end, QTextCursor.KeepAnchor)
+        else:
+            new_cursor.setPosition(position)
+        self.setTextCursor(new_cursor)
+        self.ensureCursorVisible()
+
+        self._raw_text = sanitized
+        self._updating = False
+
+
 @dataclass
 class EssayLineWidget:
     reference_label: QLabel
-    input_field: QLineEdit
+    input_field: EssayInputField
     target_text: str
 
 
@@ -173,9 +266,9 @@ class EssayPracticeWidget(QWidget):
             ref_label.setTextFormat(Qt.RichText)
             line_layout.addWidget(ref_label)
 
-            input_field = QLineEdit()
+            input_field = EssayInputField(target_text=line_text)
             input_field.setPlaceholderText("请逐行跟随范文输入，系统实时判别正确率")
-            input_field.textChanged.connect(lambda text, idx=index: self._on_line_changed(idx, text))
+            input_field.textEdited.connect(lambda text, idx=index: self._on_line_changed(idx, text))
             input_field.returnPressed.connect(lambda idx=index: self._focus_next(idx))
             line_layout.addWidget(input_field)
 
