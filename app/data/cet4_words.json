@@ -1,0 +1,602 @@
+[
+  {
+    "word": "abandon",
+    "phonetic": "/əˈbændən/",
+    "meaning": "放弃，遗弃",
+    "example": "The captain had to abandon the sinking ship to save the crew."
+  },
+  {
+    "word": "ability",
+    "phonetic": "/əˈbɪləti/",
+    "meaning": "能力，才能",
+    "example": "She has the ability to solve complicated problems."
+  },
+  {
+    "word": "abroad",
+    "phonetic": "/əˈbrɔːd/",
+    "meaning": "到国外，在海外",
+    "example": "He plans to study abroad next semester."
+  },
+  {
+    "word": "absolute",
+    "phonetic": "/ˈæbsəluːt/",
+    "meaning": "绝对的，完全的",
+    "example": "The experiment requires absolute accuracy."
+  },
+  {
+    "word": "absorb",
+    "phonetic": "/əbˈzɔːrb/",
+    "meaning": "吸收，吸引",
+    "example": "Plants absorb sunlight to produce energy."
+  },
+  {
+    "word": "abstract",
+    "phonetic": "/ˈæbstrækt/",
+    "meaning": "抽象的，摘要",
+    "example": "The professor's lecture was too abstract for beginners."
+  },
+  {
+    "word": "abundant",
+    "phonetic": "/əˈbʌndənt/",
+    "meaning": "丰富的，充裕的",
+    "example": "The island has abundant natural resources."
+  },
+  {
+    "word": "academic",
+    "phonetic": "/ˌækəˈdɛmɪk/",
+    "meaning": "学术的，学院的",
+    "example": "Academic success requires consistent effort."
+  },
+  {
+    "word": "accelerate",
+    "phonetic": "/əkˈsɛləˌreɪt/",
+    "meaning": "加速，促进",
+    "example": "The company decided to accelerate the product launch."
+  },
+  {
+    "word": "accept",
+    "phonetic": "/əkˈsɛpt/",
+    "meaning": "接受，同意",
+    "example": "She happily accepted the job offer."
+  },
+  {
+    "word": "access",
+    "phonetic": "/ˈæksɛs/",
+    "meaning": "入口，进入，使用",
+    "example": "Only staff members have access to the laboratory."
+  },
+  {
+    "word": "accident",
+    "phonetic": "/ˈæksɪdənt/",
+    "meaning": "事故，意外",
+    "example": "No one was hurt in the car accident."
+  },
+  {
+    "word": "accompany",
+    "phonetic": "/əˈkʌmpəni/",
+    "meaning": "陪伴，伴随",
+    "example": "Parents were asked to accompany their children to the event."
+  },
+  {
+    "word": "accomplish",
+    "phonetic": "/əˈkɑːmplɪʃ/",
+    "meaning": "完成，实现",
+    "example": "They accomplished their goal ahead of schedule."
+  },
+  {
+    "word": "account",
+    "phonetic": "/əˈkaʊnt/",
+    "meaning": "账户，解释",
+    "example": "He opened a savings account at the bank."
+  },
+  {
+    "word": "accurate",
+    "phonetic": "/ˈækjərət/",
+    "meaning": "准确的，精确的",
+    "example": "The scientist recorded accurate data in the experiment."
+  },
+  {
+    "word": "achieve",
+    "phonetic": "/əˈtʃiːv/",
+    "meaning": "实现，达到",
+    "example": "With hard work you can achieve your dreams."
+  },
+  {
+    "word": "acknowledge",
+    "phonetic": "/əkˈnɒlɪdʒ/",
+    "meaning": "承认，感谢",
+    "example": "She acknowledged his contribution to the project."
+  },
+  {
+    "word": "acquire",
+    "phonetic": "/əˈkwaɪər/",
+    "meaning": "获得，习得",
+    "example": "Students acquire knowledge through practice."
+  },
+  {
+    "word": "active",
+    "phonetic": "/ˈæktɪv/",
+    "meaning": "积极的，活跃的",
+    "example": "He stays active by playing basketball every weekend."
+  },
+  {
+    "word": "adapt",
+    "phonetic": "/əˈdæpt/",
+    "meaning": "适应，改编",
+    "example": "It takes time to adapt to a new culture."
+  },
+  {
+    "word": "addition",
+    "phonetic": "/əˈdɪʃən/",
+    "meaning": "增加，附加",
+    "example": "A new library is a welcome addition to the campus."
+  },
+  {
+    "word": "adequate",
+    "phonetic": "/ˈædɪkwət/",
+    "meaning": "充足的，适当的",
+    "example": "Please ensure adequate ventilation in the room."
+  },
+  {
+    "word": "adjust",
+    "phonetic": "/əˈdʒʌst/",
+    "meaning": "调整，适应",
+    "example": "You should adjust the seat before driving."
+  },
+  {
+    "word": "administration",
+    "phonetic": "/ədˌmɪnɪˈstreɪʃən/",
+    "meaning": "管理，行政",
+    "example": "The university administration announced new policies."
+  },
+  {
+    "word": "admire",
+    "phonetic": "/ədˈmaɪər/",
+    "meaning": "钦佩，赞赏",
+    "example": "Many students admire their inspiring teacher."
+  },
+  {
+    "word": "adopt",
+    "phonetic": "/əˈdɒpt/",
+    "meaning": "收养，采纳",
+    "example": "The committee decided to adopt the new plan."
+  },
+  {
+    "word": "adult",
+    "phonetic": "/ˈædʌlt/",
+    "meaning": "成年人，成人的",
+    "example": "Adults should set a good example for children."
+  },
+  {
+    "word": "advance",
+    "phonetic": "/ədˈvæns/",
+    "meaning": "前进，推进",
+    "example": "Technology continues to advance rapidly."
+  },
+  {
+    "word": "advantage",
+    "phonetic": "/ədˈvæntɪdʒ/",
+    "meaning": "优势，好处",
+    "example": "Knowing a second language is a great advantage."
+  },
+  {
+    "word": "adventure",
+    "phonetic": "/ədˈvɛntʃər/",
+    "meaning": "冒险，奇遇",
+    "example": "They went on an exciting adventure in the mountains."
+  },
+  {
+    "word": "advertise",
+    "phonetic": "/ˈædvərˌtaɪz/",
+    "meaning": "广告，宣传",
+    "example": "The company will advertise the new product online."
+  },
+  {
+    "word": "advocate",
+    "phonetic": "/ˈædvəkət/",
+    "meaning": "提倡者，提倡",
+    "example": "She is an advocate for environmental protection."
+  },
+  {
+    "word": "affect",
+    "phonetic": "/əˈfɛkt/",
+    "meaning": "影响",
+    "example": "Climate change affects every aspect of our lives."
+  },
+  {
+    "word": "afford",
+    "phonetic": "/əˈfɔːrd/",
+    "meaning": "负担得起",
+    "example": "They cannot afford to buy a new car right now."
+  },
+  {
+    "word": "agency",
+    "phonetic": "/ˈeɪdʒənsi/",
+    "meaning": "代理，机构",
+    "example": "She works for a travel agency in Beijing."
+  },
+  {
+    "word": "agenda",
+    "phonetic": "/əˈdʒɛndə/",
+    "meaning": "议程，日程",
+    "example": "The agenda for the meeting was sent by email."
+  },
+  {
+    "word": "aggressive",
+    "phonetic": "/əˈɡrɛsɪv/",
+    "meaning": "侵略性的，积极进取的",
+    "example": "He adopted an aggressive strategy to win the game."
+  },
+  {
+    "word": "agriculture",
+    "phonetic": "/ˈæɡrɪˌkʌltʃər/",
+    "meaning": "农业",
+    "example": "Modern agriculture relies on advanced technology."
+  },
+  {
+    "word": "aid",
+    "phonetic": "/eɪd/",
+    "meaning": "帮助，援助",
+    "example": "The volunteers offered immediate aid to the victims."
+  },
+  {
+    "word": "aim",
+    "phonetic": "/eɪm/",
+    "meaning": "目标，瞄准",
+    "example": "Our aim is to improve public health awareness."
+  },
+  {
+    "word": "airline",
+    "phonetic": "/ˈɛərˌlaɪn/",
+    "meaning": "航空公司",
+    "example": "The airline introduced a new route to London."
+  },
+  {
+    "word": "alarm",
+    "phonetic": "/əˈlɑːrm/",
+    "meaning": "警报，使惊恐",
+    "example": "The smoke alarm woke everyone in the building."
+  },
+  {
+    "word": "allocate",
+    "phonetic": "/ˈæləˌkeɪt/",
+    "meaning": "分配，拨给",
+    "example": "The manager allocated more resources to research."
+  },
+  {
+    "word": "allow",
+    "phonetic": "/əˈlaʊ/",
+    "meaning": "允许，使能够",
+    "example": "The app allows users to track their fitness goals."
+  },
+  {
+    "word": "alter",
+    "phonetic": "/ˈɔːltər/",
+    "meaning": "改变，修改",
+    "example": "They had to alter the plan due to bad weather."
+  },
+  {
+    "word": "alternative",
+    "phonetic": "/ɔːlˈtɜːrnətɪv/",
+    "meaning": "替代的，选择",
+    "example": "We need an alternative solution to this issue."
+  },
+  {
+    "word": "ambition",
+    "phonetic": "/æmˈbɪʃən/",
+    "meaning": "雄心，抱负",
+    "example": "Her ambition is to become a successful diplomat."
+  },
+  {
+    "word": "amount",
+    "phonetic": "/əˈmaʊnt/",
+    "meaning": "数量，总数",
+    "example": "The amount of homework has increased this semester."
+  },
+  {
+    "word": "analysis",
+    "phonetic": "/əˈnæləsɪs/",
+    "meaning": "分析",
+    "example": "The analysis revealed important market trends."
+  },
+  {
+    "word": "ancestor",
+    "phonetic": "/ˈænsɛstər/",
+    "meaning": "祖先",
+    "example": "We respect our ancestors during traditional festivals."
+  },
+  {
+    "word": "ancient",
+    "phonetic": "/ˈeɪnʃənt/",
+    "meaning": "古老的，古代的",
+    "example": "The museum houses ancient pottery from the Han dynasty."
+  },
+  {
+    "word": "anger",
+    "phonetic": "/ˈæŋɡər/",
+    "meaning": "愤怒",
+    "example": "He tried to control his anger during the debate."
+  },
+  {
+    "word": "annual",
+    "phonetic": "/ˈænjuəl/",
+    "meaning": "年度的，每年的",
+    "example": "The annual meeting will be held in July."
+  },
+  {
+    "word": "anticipate",
+    "phonetic": "/ænˈtɪsəˌpeɪt/",
+    "meaning": "预期，预料",
+    "example": "They anticipate an increase in tourism this year."
+  },
+  {
+    "word": "anxiety",
+    "phonetic": "/æŋˈzaɪəti/",
+    "meaning": "焦虑，忧虑",
+    "example": "Meditation can help reduce anxiety."
+  },
+  {
+    "word": "apologize",
+    "phonetic": "/əˈpɑːləˌdʒaɪz/",
+    "meaning": "道歉",
+    "example": "He apologized for the misunderstanding."
+  },
+  {
+    "word": "appeal",
+    "phonetic": "/əˈpiːl/",
+    "meaning": "呼吁，上诉，吸引",
+    "example": "The charity launched an appeal for donations."
+  },
+  {
+    "word": "appear",
+    "phonetic": "/əˈpɪr/",
+    "meaning": "出现，似乎",
+    "example": "The moon appears earlier during winter evenings."
+  },
+  {
+    "word": "appetite",
+    "phonetic": "/ˈæpəˌtaɪt/",
+    "meaning": "食欲，欲望",
+    "example": "A long walk can increase your appetite."
+  },
+  {
+    "word": "apply",
+    "phonetic": "/əˈplaɪ/",
+    "meaning": "申请，应用",
+    "example": "Hundreds of students apply for scholarships each year."
+  },
+  {
+    "word": "appoint",
+    "phonetic": "/əˈpɔɪnt/",
+    "meaning": "任命，约定",
+    "example": "The board appointed a new director yesterday."
+  },
+  {
+    "word": "appreciate",
+    "phonetic": "/əˈpriːʃiˌeɪt/",
+    "meaning": "感激，欣赏",
+    "example": "We appreciate your valuable feedback."
+  },
+  {
+    "word": "approach",
+    "phonetic": "/əˈproʊtʃ/",
+    "meaning": "接近，方法",
+    "example": "The scientist proposed a new approach to the problem."
+  },
+  {
+    "word": "approve",
+    "phonetic": "/əˈpruːv/",
+    "meaning": "批准，同意",
+    "example": "The committee approved the construction plan."
+  },
+  {
+    "word": "argue",
+    "phonetic": "/ˈɑːrɡjuː/",
+    "meaning": "争论，辩论",
+    "example": "They argue about politics almost every day."
+  },
+  {
+    "word": "arise",
+    "phonetic": "/əˈraɪz/",
+    "meaning": "出现，发生",
+    "example": "Unexpected problems may arise during the trip."
+  },
+  {
+    "word": "arrange",
+    "phonetic": "/əˈreɪndʒ/",
+    "meaning": "安排，整理",
+    "example": "She arranged the flowers in a vase."
+  },
+  {
+    "word": "arrest",
+    "phonetic": "/əˈrɛst/",
+    "meaning": "逮捕，阻止",
+    "example": "The police arrested the suspect last night."
+  },
+  {
+    "word": "arrive",
+    "phonetic": "/əˈraɪv/",
+    "meaning": "到达",
+    "example": "The train will arrive at 10 o'clock."
+  },
+  {
+    "word": "article",
+    "phonetic": "/ˈɑːrtɪkəl/",
+    "meaning": "文章，物品",
+    "example": "She wrote an article about urban development."
+  },
+  {
+    "word": "aspect",
+    "phonetic": "/ˈæspɛkt/",
+    "meaning": "方面，外观",
+    "example": "We discussed every aspect of the project."
+  },
+  {
+    "word": "assemble",
+    "phonetic": "/əˈsɛmbəl/",
+    "meaning": "集合，装配",
+    "example": "Volunteers assembled to clean the beach."
+  },
+  {
+    "word": "assess",
+    "phonetic": "/əˈsɛs/",
+    "meaning": "评估，评定",
+    "example": "The teacher will assess the students' presentations."
+  },
+  {
+    "word": "assign",
+    "phonetic": "/əˈsaɪn/",
+    "meaning": "分配，指定",
+    "example": "The manager assigned tasks to each team member."
+  },
+  {
+    "word": "assist",
+    "phonetic": "/əˈsɪst/",
+    "meaning": "帮助，协助",
+    "example": "A nurse will assist the doctor during the operation."
+  },
+  {
+    "word": "associate",
+    "phonetic": "/əˈsoʊʃiˌeɪt/",
+    "meaning": "联想，结交",
+    "example": "People often associate summer with the beach."
+  },
+  {
+    "word": "assume",
+    "phonetic": "/əˈsuːm/",
+    "meaning": "假设，承担",
+    "example": "Don't assume the worst before knowing the facts."
+  },
+  {
+    "word": "assure",
+    "phonetic": "/əˈʃʊr/",
+    "meaning": "保证，使放心",
+    "example": "The guide assured us that the trip would be safe."
+  },
+  {
+    "word": "athlete",
+    "phonetic": "/ˈæθliːt/",
+    "meaning": "运动员",
+    "example": "The athlete trained hard for the competition."
+  },
+  {
+    "word": "atmosphere",
+    "phonetic": "/ˈætməsˌfɪr/",
+    "meaning": "大气，氛围",
+    "example": "The restaurant has a cozy atmosphere."
+  },
+  {
+    "word": "attach",
+    "phonetic": "/əˈtætʃ/",
+    "meaning": "附上，系",
+    "example": "Please attach your resume to the email."
+  },
+  {
+    "word": "attempt",
+    "phonetic": "/əˈtɛmpt/",
+    "meaning": "尝试，企图",
+    "example": "They made an attempt to climb the mountain."
+  },
+  {
+    "word": "attend",
+    "phonetic": "/əˈtɛnd/",
+    "meaning": "出席，参加",
+    "example": "Hundreds of students attended the lecture."
+  },
+  {
+    "word": "attract",
+    "phonetic": "/əˈtrækt/",
+    "meaning": "吸引",
+    "example": "The festival attracts visitors from all over the world."
+  },
+  {
+    "word": "audience",
+    "phonetic": "/ˈɔːdiəns/",
+    "meaning": "观众，听众",
+    "example": "The audience applauded loudly after the performance."
+  },
+  {
+    "word": "author",
+    "phonetic": "/ˈɔːθər/",
+    "meaning": "作者",
+    "example": "The author signed copies of her new book."
+  },
+  {
+    "word": "average",
+    "phonetic": "/ˈævərɪdʒ/",
+    "meaning": "平均的，普通的",
+    "example": "The average temperature in May is 22 degrees."
+  },
+  {
+    "word": "award",
+    "phonetic": "/əˈwɔːrd/",
+    "meaning": "奖，授予",
+    "example": "He received an award for his bravery."
+  },
+  {
+    "word": "aware",
+    "phonetic": "/əˈwɛər/",
+    "meaning": "意识到的",
+    "example": "Please be aware of the safety instructions."
+  },
+  {
+    "word": "awkward",
+    "phonetic": "/ˈɔːkwərd/",
+    "meaning": "尴尬的，笨拙的",
+    "example": "There was an awkward silence after his joke failed."
+  },
+  {
+    "word": "balance",
+    "phonetic": "/ˈbæləns/",
+    "meaning": "平衡，余额",
+    "example": "It's important to balance work and rest."
+  },
+  {
+    "word": "barrier",
+    "phonetic": "/ˈbæriər/",
+    "meaning": "障碍，屏障",
+    "example": "Language can be a barrier to communication."
+  },
+  {
+    "word": "behave",
+    "phonetic": "/bɪˈheɪv/",
+    "meaning": "表现，举止",
+    "example": "Children should behave politely in public."
+  },
+  {
+    "word": "belief",
+    "phonetic": "/bəˈliːf/",
+    "meaning": "信念，相信",
+    "example": "She has a strong belief in justice."
+  },
+  {
+    "word": "benefit",
+    "phonetic": "/ˈbɛnɪfɪt/",
+    "meaning": "益处，受益",
+    "example": "Regular exercise benefits both body and mind."
+  },
+  {
+    "word": "biology",
+    "phonetic": "/baɪˈɑːlədʒi/",
+    "meaning": "生物学",
+    "example": "She majored in biology at university."
+  },
+  {
+    "word": "blame",
+    "phonetic": "/bleɪm/",
+    "meaning": "责备，归咎",
+    "example": "You can't blame others for your mistakes."
+  },
+  {
+    "word": "border",
+    "phonetic": "/ˈbɔːrdər/",
+    "meaning": "边界，国界",
+    "example": "We crossed the border into Canada."
+  },
+  {
+    "word": "brand",
+    "phonetic": "/brænd/",
+    "meaning": "品牌，商标",
+    "example": "This brand is known for its reliable products."
+  }
+]

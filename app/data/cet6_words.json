@@ -1,0 +1,338 @@
+[
+  {
+    "word": "accumulate",
+    "phonetic": "/əˈkjuːmjəˌleɪt/",
+    "meaning": "积累，积聚",
+    "example": "Researchers accumulate data over many years to observe trends."
+  },
+  {
+    "word": "accountability",
+    "phonetic": "/əˌkaʊntəˈbɪləti/",
+    "meaning": "问责，负有责任",
+    "example": "Transparent governance depends on accountability."
+  },
+  {
+    "word": "acoustic",
+    "phonetic": "/əˈkuːstɪk/",
+    "meaning": "声学的，听觉的",
+    "example": "The hall's acoustic design enhances every performance."
+  },
+  {
+    "word": "acquisition",
+    "phonetic": "/ˌækwəˈzɪʃən/",
+    "meaning": "获得，收购",
+    "example": "Language acquisition is faster in childhood."
+  },
+  {
+    "word": "acronym",
+    "phonetic": "/ˈækrəˌnɪm/",
+    "meaning": "首字母缩略词",
+    "example": "NASA is an acronym for National Aeronautics and Space Administration."
+  },
+  {
+    "word": "adaptability",
+    "phonetic": "/əˌdæptəˈbɪləti/",
+    "meaning": "适应性",
+    "example": "Adaptability is essential in a rapidly changing world."
+  },
+  {
+    "word": "adjacent",
+    "phonetic": "/əˈdʒeɪsənt/",
+    "meaning": "邻近的，相邻的",
+    "example": "The library is adjacent to the student center."
+  },
+  {
+    "word": "adolescence",
+    "phonetic": "/ˌædəˈlɛsəns/",
+    "meaning": "青春期",
+    "example": "Adolescence is often accompanied by emotional changes."
+  },
+  {
+    "word": "afflict",
+    "phonetic": "/əˈflɪkt/",
+    "meaning": "使痛苦，折磨",
+    "example": "Many people are afflicted by seasonal allergies."
+  },
+  {
+    "word": "aggregate",
+    "phonetic": "/ˈæɡrɪɡət/",
+    "meaning": "总数，集合的",
+    "example": "The aggregate score determines the winner of the competition."
+  },
+  {
+    "word": "agony",
+    "phonetic": "/ˈæɡəni/",
+    "meaning": "极大痛苦",
+    "example": "He cried out in agony after twisting his ankle."
+  },
+  {
+    "word": "ailment",
+    "phonetic": "/ˈeɪlmənt/",
+    "meaning": "小病，疾病",
+    "example": "Her grandmother suffers from a chronic ailment."
+  },
+  {
+    "word": "alignment",
+    "phonetic": "/əˈlaɪnmənt/",
+    "meaning": "排列，对齐",
+    "example": "Proper alignment of the wheels improves fuel efficiency."
+  },
+  {
+    "word": "allegation",
+    "phonetic": "/ˌæləˈɡeɪʃən/",
+    "meaning": "指控，指责",
+    "example": "The company denied the allegation of fraud."
+  },
+  {
+    "word": "alleviate",
+    "phonetic": "/əˈliːvieɪt/",
+    "meaning": "减轻，缓解",
+    "example": "New policies aim to alleviate urban traffic congestion."
+  },
+  {
+    "word": "alliance",
+    "phonetic": "/əˈlaɪəns/",
+    "meaning": "联盟，同盟",
+    "example": "The two nations formed an alliance for mutual defense."
+  },
+  {
+    "word": "altercation",
+    "phonetic": "/ˌɔːltərˈkeɪʃən/",
+    "meaning": "争执，争吵",
+    "example": "An altercation erupted between the two drivers."
+  },
+  {
+    "word": "ambiguity",
+    "phonetic": "/ˌæmbɪˈɡjuːəti/",
+    "meaning": "模糊，不明确",
+    "example": "Legal documents should avoid ambiguity."
+  },
+  {
+    "word": "ambivalent",
+    "phonetic": "/æmˈbɪvələnt/",
+    "meaning": "矛盾的，暧昧的",
+    "example": "She felt ambivalent about moving to a new city."
+  },
+  {
+    "word": "amenity",
+    "phonetic": "/əˈmɛnəti/",
+    "meaning": "便利设施，舒适",
+    "example": "The hotel offers every amenity you could need."
+  },
+  {
+    "word": "ammunition",
+    "phonetic": "/ˌæmjəˈnɪʃən/",
+    "meaning": "弹药，军火",
+    "example": "The soldiers checked their ammunition before the mission."
+  },
+  {
+    "word": "analogy",
+    "phonetic": "/əˈnælədʒi/",
+    "meaning": "类比，类似",
+    "example": "He used a simple analogy to explain the complex theory."
+  },
+  {
+    "word": "annihilate",
+    "phonetic": "/əˈnaɪəˌleɪt/",
+    "meaning": "毁灭，消灭",
+    "example": "The storm threatened to annihilate the small village."
+  },
+  {
+    "word": "anomaly",
+    "phonetic": "/əˈnɑːməli/",
+    "meaning": "异常，反常",
+    "example": "Scientists studied the data anomaly carefully."
+  },
+  {
+    "word": "antagonist",
+    "phonetic": "/ænˈtæɡənɪst/",
+    "meaning": "对手，敌手",
+    "example": "In the novel, the antagonist is a corrupt politician."
+  },
+  {
+    "word": "anthology",
+    "phonetic": "/ænˈθɑːlədʒi/",
+    "meaning": "选集，文选",
+    "example": "She published an anthology of contemporary poetry."
+  },
+  {
+    "word": "antibiotic",
+    "phonetic": "/ˌæntɪbaɪˈɑːtɪk/",
+    "meaning": "抗生素",
+    "example": "Doctors prescribe antibiotics to fight bacterial infections."
+  },
+  {
+    "word": "apparatus",
+    "phonetic": "/ˌæpəˈrætəs/",
+    "meaning": "装置，器械",
+    "example": "The laboratory apparatus must be sterilized regularly."
+  },
+  {
+    "word": "apparel",
+    "phonetic": "/əˈpærəl/",
+    "meaning": "服装，衣服",
+    "example": "The store specializes in sports apparel."
+  },
+  {
+    "word": "apparition",
+    "phonetic": "/ˌæpəˈrɪʃən/",
+    "meaning": "幽灵，幻影",
+    "example": "Villagers claimed to see an apparition near the castle."
+  },
+  {
+    "word": "apprentice",
+    "phonetic": "/əˈprɛntɪs/",
+    "meaning": "学徒",
+    "example": "He worked as an apprentice in a metal workshop."
+  },
+  {
+    "word": "aquatic",
+    "phonetic": "/əˈkwætɪk/",
+    "meaning": "水生的，水上的",
+    "example": "The aquarium displays many aquatic species."
+  },
+  {
+    "word": "arbitrary",
+    "phonetic": "/ˈɑːrbəˌtrɛri/",
+    "meaning": "任意的，武断的",
+    "example": "The company's arbitrary rules frustrated employees."
+  },
+  {
+    "word": "archaeology",
+    "phonetic": "/ˌɑːrkiˈɒlədʒi/",
+    "meaning": "考古学",
+    "example": "Archaeology reveals how ancient civilizations lived."
+  },
+  {
+    "word": "archive",
+    "phonetic": "/ˈɑːrkaɪv/",
+    "meaning": "档案，存档",
+    "example": "The university archive preserves historical documents."
+  },
+  {
+    "word": "ardent",
+    "phonetic": "/ˈɑːrdənt/",
+    "meaning": "热情的，热心的",
+    "example": "He is an ardent supporter of clean energy."
+  },
+  {
+    "word": "articulate",
+    "phonetic": "/ɑːrˈtɪkjəˌleɪt/",
+    "meaning": "清楚表达，善于表达的",
+    "example": "The spokesperson was articulate and confident."
+  },
+  {
+    "word": "artifact",
+    "phonetic": "/ˈɑːrtəˌfækt/",
+    "meaning": "人工制品，手工艺品",
+    "example": "The museum displayed artifacts from ancient Egypt."
+  },
+  {
+    "word": "ascribe",
+    "phonetic": "/əˈskraɪb/",
+    "meaning": "归因于，归功于",
+    "example": "Scholars ascribe the success to effective leadership."
+  },
+  {
+    "word": "aspiration",
+    "phonetic": "/ˌæspəˈreɪʃən/",
+    "meaning": "志向，抱负",
+    "example": "Her aspiration is to improve rural education."
+  },
+  {
+    "word": "assertive",
+    "phonetic": "/əˈsɜːrtɪv/",
+    "meaning": "坚定自信的",
+    "example": "Being assertive can help you communicate your needs."
+  },
+  {
+    "word": "assimilation",
+    "phonetic": "/əˌsɪməˈleɪʃən/",
+    "meaning": "同化，吸收",
+    "example": "The novel explores cultural assimilation in America."
+  },
+  {
+    "word": "astonish",
+    "phonetic": "/əˈstɑːnɪʃ/",
+    "meaning": "使惊讶",
+    "example": "Her rapid progress astonished the coach."
+  },
+  {
+    "word": "attainment",
+    "phonetic": "/əˈteɪnmənt/",
+    "meaning": "成就，达到",
+    "example": "Academic attainment depends on dedication."
+  },
+  {
+    "word": "attire",
+    "phonetic": "/əˈtaɪər/",
+    "meaning": "服装，装束",
+    "example": "Formal attire is required for the gala dinner."
+  },
+  {
+    "word": "attribute",
+    "phonetic": "/əˈtrɪbjət/",
+    "meaning": "特征，归因",
+    "example": "Patience is an important attribute of great teachers."
+  },
+  {
+    "word": "autonomy",
+    "phonetic": "/ɔːˈtɑːnəmi/",
+    "meaning": "自治，自主",
+    "example": "Employees appreciate autonomy in their work."
+  },
+  {
+    "word": "avalanche",
+    "phonetic": "/ˈævəˌlæntʃ/",
+    "meaning": "雪崩，大量涌来",
+    "example": "An avalanche closed the mountain pass for days."
+  },
+  {
+    "word": "avid",
+    "phonetic": "/ˈævɪd/",
+    "meaning": "热衷的，渴望的",
+    "example": "She is an avid reader of mystery novels."
+  },
+  {
+    "word": "awe",
+    "phonetic": "/ɔː/",
+    "meaning": "敬畏，惊叹",
+    "example": "The sight of the glacier filled them with awe."
+  },
+  {
+    "word": "benchmark",
+    "phonetic": "/ˈbɛntʃˌmɑːrk/",
+    "meaning": "基准，参照",
+    "example": "Benchmark tests allow schools to compare performance."
+  },
+  {
+    "word": "benevolent",
+    "phonetic": "/bəˈnɛvələnt/",
+    "meaning": "仁慈的，慈善的",
+    "example": "The foundation is known for its benevolent work."
+  },
+  {
+    "word": "bewilder",
+    "phonetic": "/bɪˈwɪldər/",
+    "meaning": "使迷惑，使困惑",
+    "example": "The complex instructions bewildered the new staff."
+  },
+  {
+    "word": "bilateral",
+    "phonetic": "/baɪˈlætərəl/",
+    "meaning": "双边的，双方的",
+    "example": "The two countries signed a bilateral agreement."
+  },
+  {
+    "word": "breach",
+    "phonetic": "/briːtʃ/",
+    "meaning": "违反，裂缝",
+    "example": "There was a serious breach of company policy."
+  },
+  {
+    "word": "brevity",
+    "phonetic": "/ˈbrɛvɪti/",
+    "meaning": "简洁，短暂",
+    "example": "The speaker was praised for his brevity."
+  }
+]
