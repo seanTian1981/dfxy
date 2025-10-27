@@ -192,15 +192,17 @@ class WordPracticeWidget(QWidget):
         font.setPointSize(30)
         font.setBold(True)
 
-        for char in self.current_word.word:
-            lbl = QLabel(char.upper())
+        display_word = self.current_word.word.lower()
+
+        for char in display_word:
+            lbl = QLabel(char)
             lbl.setFont(font)
             lbl.setStyleSheet("color: #1e293b; padding: 6px 8px;")
             self.letters_container.addWidget(lbl)
             self.letter_labels.append(lbl)
 
         if self.word_title_label is not None:
-            self.word_title_label.setText(self.current_word.word.upper())
+            self.word_title_label.setText(display_word)
         if self.phonetic_label is not None:
             self.phonetic_label.setText(self.current_word.phonetic)
         if self.meaning_label is not None:

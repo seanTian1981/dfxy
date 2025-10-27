@@ -8,6 +8,7 @@ from PyQt5.QtGui import QColor, QPalette
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget
 
 from app.core.audio import TextToSpeech
+from app.core.network_utils import get_local_ip
 from app.ui.essay_practice import EssayPracticeWidget
 from app.ui.pk_mode import PkModeWidget
 from app.ui.word_practice import WordPracticeWidget
@@ -128,6 +129,11 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self._tab_widget)
 
         self._build_tabs()
+
+        self.local_ip = get_local_ip()
+        status_bar = self.statusBar()
+        status_bar.setStyleSheet("color: #1a73e8; font-weight: 600;")
+        status_bar.showMessage(f"本机 IP：{self.local_ip}")
 
     def _build_tabs(self) -> None:
         self.word_tab = WordPracticeWidget(tts=self.tts, parent=self)

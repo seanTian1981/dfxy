@@ -85,7 +85,11 @@ class PkServer(threading.Thread):
 
     def _broadcast_user_list(self) -> None:
         user_list = [
-            {"student_id": client.student_id, "name": client.name}
+            {
+                "student_id": client.student_id,
+                "name": client.name,
+                "ip": client.addr[0],
+            }
             for client in self.clients.values()
         ]
         payload = json.dumps({"type": "user_list", "users": user_list}).encode("utf-8")
@@ -106,6 +110,7 @@ class PkServer(threading.Thread):
             "from": {
                 "student_id": challenger.student_id,
                 "name": challenger.name,
+                "ip": challenger.addr[0],
             },
         }
         self.sock.sendto(json.dumps(payload).encode("utf-8"), opponent.addr)
@@ -126,6 +131,7 @@ class PkServer(threading.Thread):
             "from": {
                 "student_id": responder.student_id,
                 "name": responder.name,
+                "ip": responder.addr[0],
             },
         }
         self.sock.sendto(json.dumps(response_payload).encode("utf-8"), challenger.addr)
@@ -147,8 +153,16 @@ class PkServer(threading.Thread):
                 "challenge_id": challenge_id,
                 "essay": challenge_info.essay,
                 "participants": [
-                    {"student_id": challenger.student_id, "name": challenger.name},
-                    {"student_id": responder.student_id, "name": responder.name},
+                    {
+                        "student_id": challenger.student_id,
+                        "name": challenger.name,
+                        "ip": challenger.addr[0],
+                    },
+                    {
+                        "student_id": responder.student_id,
+                        "name": responder.name,
+                        "ip": responder.addr[0],
+                    },
                 ],
             }
             raw = json.dumps(start_payload).encode("utf-8")
