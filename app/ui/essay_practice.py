@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
+from html import escape
 from typing import List, Optional
 
 from PyQt5.QtCore import Qt, QTimer
@@ -165,12 +166,12 @@ class EssayPracticeWidget(QWidget):
             line_layout.setContentsMargins(18, 16, 18, 16)
             line_layout.setSpacing(12)
 
-            ref_label = QLabel(line_text)
+            ref_label = QLabel()
             ref_label.setWordWrap(True)
             ref_label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
             ref_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+            ref_label.setTextFormat(Qt.RichText)
             line_layout.addWidget(ref_label)
-            self._set_label_style(ref_label, "#1e293b")
 
             input_field = QLineEdit()
             input_field.setPlaceholderText("请逐行跟随范文输入，系统实时判别正确率")
@@ -178,8 +179,10 @@ class EssayPracticeWidget(QWidget):
             input_field.returnPressed.connect(lambda idx=index: self._focus_next(idx))
             line_layout.addWidget(input_field)
 
+            widget = EssayLineWidget(reference_label=ref_label, input_field=input_field, target_text=line_text)
             self.lines_container.addWidget(line_card)
-            self.line_widgets.append(EssayLineWidget(reference_label=ref_label, input_field=input_field, target_text=line_text))
+            self.line_widgets.append(widget)
+            self._update_label_color(widget)
 
         self.lines_container.addStretch(1)
         self._apply_font_size()
@@ -212,20 +215,28 @@ class EssayPracticeWidget(QWidget):
         return lines
 
     def _update_label_color(self, widget: EssayLineWidget) -> None:
-        typed_text = widget.input_field.text().strip()
-        target_line = widget.target_text.strip()
-        if not typed_text:
-            color = "#1e293b"
-        elif typed_text == target_line:
-            color = "#16a34a"
-        else:
-            color = "#dc2626"
-        self._set_label_style(widget.reference_label, color)
+        typed_text = widget.input_field.text()
+        target_line = widget.target_text
+        typed_length = len(typed_text)
 
-    def _set_label_style(self, label: QLabel, color: str) -> None:
-        label.setStyleSheet(
-            f"color: {color}; font-size: {self.current_font_size}px; font-weight: 500; line-height: 1.6;"
+        segments: List[str] = []
+        for idx, char in enumerate(target_line):
+            if idx < typed_length:
+                if typed_text[idx] == char:
+                    color = "#2563eb"
+                else:
+                    color = "#dc2626"
+            else:
+                color = "#1e293b"
+
+            safe_char = escape(char)
+            segments.append(f'<span style="color: {color};">{safe_char}</span>')
+
+        styled_text = (
+            f'<div style="font-size: {self.current_font_size}px; font-weight: 500; '
+            f'line-height: 1.6; white-space: pre-wrap;">{"".join(segments)}</div>'
         )
+        widget.reference_label.setText(styled_text)
 
     def _on_line_changed(self, index: int, _text: str) -> None:
         if not (0 <= index < len(self.line_widgets)):
