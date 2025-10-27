@@ -216,7 +216,7 @@ class WordPracticeWidget(QWidget):
     def _speak_current_word(self) -> None:
         if self.current_word is None:
             return
-        utterance = f"{self.current_word.word}. {self.current_word.meaning}"
+        utterance = self.current_word.word.lower()
         self.tts.speak(utterance)
 
     def _on_input_change(self, text: str) -> None:
