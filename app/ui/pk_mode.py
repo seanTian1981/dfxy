@@ -16,6 +16,7 @@ from PyQt5.QtWidgets import (
     QListWidget,
     QListWidgetItem,
     QMessageBox,
+    QProgressBar,
     QPushButton,
     QTextEdit,
     QVBoxLayout,
@@ -210,6 +211,8 @@ class PkModeWidget(QWidget):
             self._handle_challenge_response(message)
         elif msg_type == "start_challenge":
             self._handle_start_challenge(message)
+        elif msg_type == "progress_update":
+            self._handle_progress_update(message)
         elif msg_type == "challenge_result":
             self._handle_challenge_result(message)
 
@@ -316,6 +319,26 @@ class PkModeWidget(QWidget):
         self.challenge_dialog.show()
         self._set_status(f"挑战开始，对手 {opponent_name} ({opponent_ip})，祝您好运！")
 
+    def _handle_progress_update(self, message: dict) -> None:
+        if self.challenge_dialog is None:
+            return
+        if message.get("challenge_id") != self.current_challenge_id:
+            return
+        student_id = message.get("student_id")
+        try:
+            progress = float(message.get("progress", 0.0))
+        except (TypeError, ValueError):
+            progress = 0.0
+        try:
+            accuracy = float(message.get("accuracy", 0.0))
+        except (TypeError, ValueError):
+            accuracy = 0.0
+        try:
+            speed = float(message.get("speed", 0.0))
+        except (TypeError, ValueError):
+            speed = 0.0
+        self.challenge_dialog.handle_progress_update(student_id, progress, accuracy, speed)
+
     def _on_challenge_dialog_closed(self, _obj=None) -> None:
         self.challenge_dialog = None
 
@@ -391,8 +414,20 @@ class ChallengeDialog(QDialog):
         self.user_text: Optional[QTextEdit] = None
         self.status_label: Optional[QLabel] = None
         self.result_label: Optional[QLabel] = None
+        self.my_progress_bar: Optional[QProgressBar] = None
+        self.opponent_progress_bar: Optional[QProgressBar] = None
+
+        self._my_progress = 0.0
+        self._opponent_progress = 0.0
+        self._opponent_accuracy = 1.0
+        self._opponent_speed = 0.0
+        self._last_reported_length = -1
+        self._last_reported_progress = -1.0
+        self._last_reported_accuracy = -1.0
+        self._last_reported_speed = -1.0
 
         self._build_ui()
+        self._refresh_status_text()
         self._render_reference()
         self._start_countdown()
 
@@ -418,6 +453,42 @@ class ChallengeDialog(QDialog):
         opponent_label.setStyleSheet("color: #475569; font-size: 15px; font-weight: 600;")
         layout.addWidget(opponent_label)
         self.opponent_label = opponent_label
+
+        progress_card = QFrame()
+        progress_card.setObjectName("CardFrame")
+        progress_layout = QGridLayout(progress_card)
+        progress_layout.setContentsMargins(20, 16, 20, 16)
+        progress_layout.setHorizontalSpacing(16)
+        progress_layout.setVerticalSpacing(12)
+        layout.addWidget(progress_card)
+
+        progress_header = QLabel("实时进度对比")
+        progress_header.setObjectName("SectionHeader")
+        progress_layout.addWidget(progress_header, 0, 0, 1, 2)
+
+        my_progress_title = QLabel("我的进度")
+        my_progress_title.setStyleSheet("font-weight: 600; color: #1f2937;")
+        progress_layout.addWidget(my_progress_title, 1, 0)
+
+        my_bar = QProgressBar()
+        my_bar.setRange(0, 100)
+        my_bar.setValue(0)
+        my_bar.setAlignment(Qt.AlignCenter)
+        my_bar.setFormat("我的进度：%p%")
+        progress_layout.addWidget(my_bar, 1, 1)
+        self.my_progress_bar = my_bar
+
+        opponent_progress_title = QLabel(f"{self.opponent_name} 的进度")
+        opponent_progress_title.setStyleSheet("font-weight: 600; color: #1f2937;")
+        progress_layout.addWidget(opponent_progress_title, 2, 0)
+
+        opponent_bar = QProgressBar()
+        opponent_bar.setRange(0, 100)
+        opponent_bar.setValue(0)
+        opponent_bar.setAlignment(Qt.AlignCenter)
+        opponent_bar.setFormat(f"{self.opponent_name}：%p%")
+        progress_layout.addWidget(opponent_bar, 2, 1)
+        self.opponent_progress_bar = opponent_bar
 
         panel = QFrame()
         panel.setObjectName("CardFrame")
@@ -448,8 +519,9 @@ class ChallengeDialog(QDialog):
         panel_layout.addWidget(user_text, stretch=1)
         self.user_text = user_text
 
-        status = QLabel("速度: 0.0 词/分钟 | 正确率: 100.0%")
+        status = QLabel("")
         status.setObjectName("StatusLabel")
+        status.setWordWrap(True)
         layout.addWidget(status)
         self.status_label = status
 
@@ -482,6 +554,8 @@ class ChallengeDialog(QDialog):
                 self.user_text.setReadOnly(False)
                 self.user_text.setFocus()
             self.stats.reset()
+            self._update_own_progress(0.0)
+            self._report_progress(0.0, 0, force=True)
 
     def _on_text_change(self) -> None:
         if self.user_text is None or self.user_text.isReadOnly():
@@ -500,18 +574,18 @@ class ChallengeDialog(QDialog):
         self.stats.correct_letters = correct_chars
         self.stats.total_letters = len(typed)
 
-        if self.status_label is not None:
-            self.status_label.setText(
-                f"速度: {self.stats.words_per_minute:.1f} 词/分钟 | 正确率: {self.stats.accuracy * 100:.1f}%"
-            )
+        progress = 0.0
+        if target:
+            progress = min(len(typed) / len(target), 1.0)
+
+        self._update_own_progress(progress)
+        self._report_progress(progress, len(typed))
 
         if target and typed == target and not self.submitted:
             self.submitted = True
             self.stats.register_completion(len(target))
-            if self.status_label is not None:
-                self.status_label.setText(
-                    f"速度: {self.stats.words_per_minute:.1f} 词/分钟 | 正确率: {self.stats.accuracy * 100:.1f}%"
-                )
+            self._update_own_progress(1.0)
+            self._report_progress(1.0, len(target), force=True)
             if self.user_text is not None:
                 self.user_text.setReadOnly(True)
             self.client.submit_result(self.challenge_id, self.stats.accuracy, self.stats.words_per_minute)
@@ -554,6 +628,68 @@ class ChallengeDialog(QDialog):
 
         self.user_text.setTextCursor(cursor_backup)
 
+    def _update_own_progress(self, progress: float) -> None:
+        progress = max(0.0, min(progress, 1.0))
+        self._my_progress = progress
+        if self.my_progress_bar is not None:
+            self.my_progress_bar.setValue(int(progress * 100))
+        self._refresh_status_text()
+
+    def _report_progress(self, progress: float, typed_length: int, force: bool = False) -> None:
+        if self.client is None or not self.challenge_id:
+            return
+        accuracy = self.stats.accuracy
+        speed = self.stats.words_per_minute
+        if not force:
+            if (
+                typed_length == self._last_reported_length
+                and abs(progress - self._last_reported_progress) < 1e-3
+                and abs(accuracy - self._last_reported_accuracy) < 1e-3
+                and abs(speed - self._last_reported_speed) < 1e-3
+            ):
+                return
+        self._last_reported_length = typed_length
+        self._last_reported_progress = progress
+        self._last_reported_accuracy = accuracy
+        self._last_reported_speed = speed
+        self.client.send_progress(
+            self.challenge_id,
+            accuracy,
+            speed,
+            progress,
+        )
+
+    def handle_progress_update(
+        self,
+        student_id: Optional[str],
+        progress: float,
+        accuracy: float,
+        speed: float,
+    ) -> None:
+        if self.client is not None and student_id == self.client.student_id:
+            return
+        progress = max(0.0, min(progress, 1.0))
+        self._opponent_progress = progress
+        self._opponent_accuracy = max(0.0, min(accuracy, 1.0))
+        self._opponent_speed = max(0.0, speed)
+        if self.opponent_progress_bar is not None:
+            self.opponent_progress_bar.setValue(int(progress * 100))
+            self.opponent_progress_bar.setFormat(f"{self.opponent_name}：%p%")
+        self._refresh_status_text()
+
+    def _refresh_status_text(self) -> None:
+        if self.status_label is None:
+            return
+        text_parts = [
+            f"我的进度: {self._my_progress * 100:.1f}%",
+            f"我的速度: {self.stats.words_per_minute:.1f} 词/分钟",
+            f"我的正确率: {self.stats.accuracy * 100:.1f}%",
+            f"{self.opponent_name} 进度: {self._opponent_progress * 100:.1f}%",
+            f"{self.opponent_name} 速度: {self._opponent_speed:.1f} 词/分钟",
+            f"{self.opponent_name} 正确率: {self._opponent_accuracy * 100:.1f}%",
+        ]
+        self.status_label.setText(" | ".join(text_parts))
+
     def show_result(self, winner: Optional[str], results: dict, my_id: Optional[str]) -> None:
         if self.result_label is None:
             return
@@ -566,6 +702,35 @@ class ChallengeDialog(QDialog):
         else:
             text = "对方获胜，再接再厉！"
             color = "#dc2626"
+
+        opponent_id: Optional[str] = None
+        if isinstance(results, dict):
+            if my_id:
+                opponent_id = next((sid for sid in results.keys() if sid != my_id), None)
+            if opponent_id is None and results:
+                opponent_id = next(iter(results.keys()))
+            if opponent_id:
+                opponent_stats = results.get(opponent_id, {}) or {}
+                self._opponent_progress = 1.0
+                if self.opponent_progress_bar is not None:
+                    self.opponent_progress_bar.setValue(100)
+                accuracy_value = opponent_stats.get("accuracy")
+                try:
+                    self._opponent_accuracy = max(0.0, min(float(accuracy_value), 1.0))
+                except (TypeError, ValueError):
+                    pass
+                speed_value = opponent_stats.get("speed")
+                try:
+                    self._opponent_speed = max(0.0, float(speed_value))
+                except (TypeError, ValueError):
+                    pass
+            if my_id and my_id in results:
+                self._my_progress = 1.0
+                if self.my_progress_bar is not None:
+                    self.my_progress_bar.setValue(100)
+
+        self._refresh_status_text()
+
         details = json.dumps(results, ensure_ascii=False, indent=2)
         self.result_label.setText(text)
         self.result_label.setStyleSheet(f"color: {color};")

@@ -71,6 +71,8 @@ class PkServer(threading.Thread):
             self._handle_challenge_request(message)
         elif msg_type == "challenge_response":
             self._handle_challenge_response(message)
+        elif msg_type == "progress":
+            self._handle_progress(message)
         elif msg_type == "result":
             self._handle_result(message)
 
@@ -168,6 +170,39 @@ class PkServer(threading.Thread):
             raw = json.dumps(start_payload).encode("utf-8")
             self.sock.sendto(raw, challenger.addr)
             self.sock.sendto(raw, responder.addr)
+
+    def _handle_progress(self, message: dict) -> None:
+        challenge_id = message.get("challenge_id")
+        student_id = message.get("student_id")
+        if not challenge_id or not student_id:
+            return
+        challenge = self.challenges.get(challenge_id)
+        if challenge is None:
+            return
+        if student_id not in (
+            challenge.challenger.student_id,
+            challenge.opponent.student_id,
+        ):
+            return
+        def _to_float(value: object, default: float = 0.0) -> float:
+            try:
+                return float(value)
+            except (TypeError, ValueError):
+                return default
+
+        progress_value = _to_float(message.get("progress", 0.0))
+        progress_value = max(0.0, min(progress_value, 1.0))
+        payload = {
+            "type": "progress_update",
+            "challenge_id": challenge_id,
+            "student_id": student_id,
+            "accuracy": _to_float(message.get("accuracy", 0.0)),
+            "speed": _to_float(message.get("speed", 0.0)),
+            "progress": progress_value,
+        }
+        raw = json.dumps(payload).encode("utf-8")
+        self.sock.sendto(raw, challenge.challenger.addr)
+        self.sock.sendto(raw, challenge.opponent.addr)
 
     def _handle_result(self, message: dict) -> None:
         challenge_id = message.get("challenge_id")
