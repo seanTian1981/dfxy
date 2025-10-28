@@ -88,6 +88,19 @@ class PkClient:
         }
         self._send(payload)
 
+    def send_progress(self, challenge_id: str, accuracy: float, speed: float, progress: float) -> None:
+        if not self.student_id:
+            return
+        payload = {
+            "type": "progress",
+            "challenge_id": challenge_id,
+            "student_id": self.student_id,
+            "accuracy": accuracy,
+            "speed": speed,
+            "progress": progress,
+        }
+        self._send(payload)
+
     def _send(self, payload: dict) -> None:
         raw = json.dumps(payload).encode("utf-8")
         self.sock.sendto(raw, self.server_addr)
