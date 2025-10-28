@@ -94,7 +94,7 @@ class WordPracticeWidget(QWidget):
         controls_layout.addWidget(restart_button)
 
         speak_button = QPushButton("播放发音")
-        speak_button.clicked.connect(self._speak_current_word)
+        speak_button.clicked.connect(lambda: self._play_pronunciation())
         controls_layout.addWidget(speak_button)
 
         controls_layout.addSpacerItem(QSpacerItem(10, 10, QSizePolicy.Expanding, QSizePolicy.Minimum))
@@ -178,7 +178,7 @@ class WordPracticeWidget(QWidget):
             self.entry.blockSignals(False)
             self.entry.setFocus()
         self._render_current_word()
-        QTimer.singleShot(300, self._speak_current_word)
+        self._play_pronunciation(delay_ms=300)
 
     def _render_current_word(self) -> None:
         if self.current_word is None or self.letters_container is None:
@@ -213,6 +213,25 @@ class WordPracticeWidget(QWidget):
         for label in self.letter_labels:
             label.setStyleSheet("color: #1e293b; padding: 6px 8px;")
 
+    def _play_pronunciation(self, delay_ms: int = 0) -> None:
+        if delay_ms <= 0:
+            self._speak_current_word()
+        else:
+            QTimer.singleShot(delay_ms, self._speak_current_word)
+
+    def _handle_input_error(self, typed_length: int) -> None:
+        self.stats.register_error(max(typed_length, 0))
+        if self.entry is not None:
+            self.entry.blockSignals(True)
+            self.entry.clear()
+            self.entry.blockSignals(False)
+            self.entry.setFocus()
+        for reset_label in self.letter_labels:
+            reset_label.setStyleSheet("color: #dc2626; padding: 6px 8px;")
+        self._play_pronunciation(delay_ms=600)
+        QTimer.singleShot(800, self._render_current_word)
+        self._update_status()
+
     def _speak_current_word(self) -> None:
         if self.current_word is None:
             return
@@ -222,35 +241,31 @@ class WordPracticeWidget(QWidget):
     def _on_input_change(self, text: str) -> None:
         if self.current_word is None:
             return
-        target = self.current_word.word
-        lowercase_target = target.lower()
+        lowercase_target = self.current_word.word.lower()
 
         if not text:
             for label in self.letter_labels:
                 label.setStyleSheet("color: #1e293b; padding: 6px 8px;")
             return
 
+        normalized_text = text.lower()
+
+        if len(normalized_text) > len(lowercase_target):
+            self._handle_input_error(len(text))
+            return
+
         for idx, label in enumerate(self.letter_labels):
-            if idx < len(text):
-                if text[idx].lower() == lowercase_target[idx]:
+            if idx < len(normalized_text):
+                if normalized_text[idx] == lowercase_target[idx]:
                     label.setStyleSheet("color: #16a34a; padding: 6px 8px;")
                 else:
-                    self.stats.register_error(len(text))
-                    if self.entry is not None:
-                        self.entry.blockSignals(True)
-                        self.entry.clear()
-                        self.entry.blockSignals(False)
-                    for reset_label in self.letter_labels:
-                        reset_label.setStyleSheet("color: #dc2626; padding: 6px 8px;")
-                    QTimer.singleShot(800, self._render_current_word)
-                    QTimer.singleShot(600, self._speak_current_word)
-                    self._update_status()
+                    self._handle_input_error(len(text))
                     return
             else:
                 label.setStyleSheet("color: #1e293b; padding: 6px 8px;")
 
-        if text.lower() == lowercase_target:
-            self.stats.register_word(len(target))
+        if normalized_text == lowercase_target:
+            self.stats.register_word(len(lowercase_target))
             self._update_status()
             QTimer.singleShot(350, self._next_word)
 
